@@ -10,32 +10,81 @@ pool.connect((err) => {
     if (err) {
         console.log(err.message);
     }
+    // console.log('db ' + connection.state);
 });
 
+
 class DbService {
+    constructor() {
+        this.id = 0;
+    }
+
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
 
-    insertNewName = (name) => {
-        const date = new Date()
-        pool.query('INSERT INTO names (name, date) VALUES ($1, $2)', [name, date])
+    async getAllData() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                pool.query("SELECT * FROM names")}).resolve
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    getAllData = () => {
-        return pool.query('SELECT * FROM names')
+
+    async insertNewName(name, id) {
+        this.id++;
+        try {
+            const dateAdded = new Date();
+            const response = await new Promise((resolve, reject) => {
+                pool.query("INSERT INTO names (name, date_added) VALUES ($1,$2) RETURNING *", [name, dateAdded])
+            }).resolve
+
+            return {
+                id : this.id,
+                name : name,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    updateNameById = (id, name) => {
-        pool.query('UPDATE names SET name = $1 WHERE id = $2', [name, id])
+    async deleteRowById(id) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                pool.query("DELETE FROM names WHERE id =  $1", [id])}).resolve
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
-    deleteRowById = (id) => {
-        pool.query('DELETE FROM names WHERE id = $1', [id])
+    async updateNameById(name, id) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                pool.query("UPDATE names SET name = $1 WHERE id = $2", [name, id])}).resolve
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
-    searchByName = (name) => {
-        return pool.query('SELECT * FROM names WHERE id = $1', [name])
+    async searchByName(name) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                pool.query("SELECT * FROM names WHERE name = $1", [name])}).resolve
+
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

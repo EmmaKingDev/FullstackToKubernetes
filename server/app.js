@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended : false }));
 // create
 app.post('/insert', (request, response) => {
     const { name } = request.body;
+    const id = parseInt(request.params.id)
     const db = dbService.getDbServiceInstance();
     
     const result = db.insertNewName(name);
@@ -38,10 +39,11 @@ app.get('/getAll', (request, response) => {
 
 // update
 app.patch('/update', (request, response) => {
-    const { id, name } = request.body;
+    const { name } = request.body;
+    const id = parseInt(request.params.id)
     const db = dbService.getDbServiceInstance();
 
-    const result = db.updateNameById(id, name);
+    const result = db.updateNameById(name, id);
     
     result
     .then(data => response.json({success : data}))
@@ -50,7 +52,7 @@ app.patch('/update', (request, response) => {
 
 // delete
 app.delete('/delete/:id', (request, response) => {
-    const { id } = request.params;
+    const id = parseInt(request.params.id)
     const db = dbService.getDbServiceInstance();
 
     const result = db.deleteRowById(id);
