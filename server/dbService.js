@@ -15,9 +15,6 @@ pool.connect((err) => {
 
 
 class DbService {
-    constructor() {
-        this.id = 0;
-    }
 
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
@@ -35,27 +32,36 @@ class DbService {
 
 
     async insertNewName(name, id) {
-        this.id++;
         try {
             const dateAdded = new Date();
-            const response = await new Promise((resolve, reject) => {
-                pool.query("INSERT INTO names (name, date_added) VALUES ($1,$2) RETURNING *", [name, dateAdded])
-            }).resolve
-
+            let minutes = dateAdded.getMinutes();
+            if (parseInt(minutes) < 10) {
+                minutes = "0" + minutes;
+            }
+            let date = dateAdded.getDate() + "/" + dateAdded.getMonth() + "/" + dateAdded.getFullYear() + " " + dateAdded.getHours() + ":" + minutes;
+/*             const response = await new Promise((resolve, reject) => {
+                pool.query("INSERT INTO names (name, date_added) VALUES ($1,$2) RETURNING id", [name, date])
+            }).resolve */
+            let idsku = ""
+            const queryText = 'INSERT INTO names (nimi, date_added) VALUES ($1,$2) RETURNING id"'
+            pool.query(queryText, [name,date], function(err, result) {
+                idsku = result.rows[0].id;
+            });
+            console.log(idsku); 
             return {
-                id : this.id,
+                id : newlyCreatedUserId,
                 name : name,
-                dateAdded : dateAdded
+                dateAdded : date
             };
         } catch (error) {
             console.log(error);
         }
     }
 
-    async deleteRowById(id) {
+    async deleteRowById(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                pool.query("DELETE FROM names WHERE id =  $1", [id])}).resolve
+                pool.query("DELETE FROM names WHERE id =  $1", [name])}).resolve
     
             return response === 1 ? true : false;
         } catch (error) {
@@ -67,7 +73,7 @@ class DbService {
     async updateNameById(name, id) {
         try {
             const response = await new Promise((resolve, reject) => {
-                pool.query("UPDATE names SET name = $1 WHERE id = $2", [name, id])}).resolve
+                pool.query("UPDATE names SET nimi = $1 WHERE id = $2", [name, id])}).resolve
     
             return response === 1 ? true : false;
         } catch (error) {
@@ -79,7 +85,7 @@ class DbService {
     async searchByName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                pool.query("SELECT * FROM names WHERE name = $1", [name])}).resolve
+                pool.query("SELECT * FROM names WHERE nimi = $1", [name])}).resolve
 
             return response;
         } catch (error) {

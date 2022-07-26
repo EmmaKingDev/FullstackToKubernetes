@@ -4,22 +4,23 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const dbService = require('./dbService');
+const dbService = require('./dbService');   
 
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
+let id = 0;
 
 
 // create
 app.post('/insert', (request, response) => {
+    id++;
     const { name } = request.body;
-    const id = parseInt(request.params.id)
     const db = dbService.getDbServiceInstance();
     
-    const result = db.insertNewName(name);
+    const result = db.insertNewName(name, id);
 
     result
     .then(data => response.json({ data: data}))
@@ -40,10 +41,9 @@ app.get('/getAll', (request, response) => {
 // update
 app.patch('/update', (request, response) => {
     const { name } = request.body;
-    const id = parseInt(request.params.id)
     const db = dbService.getDbServiceInstance();
 
-    const result = db.updateNameById(name, id);
+    const result = db.updateNameById(name, nimi);
     
     result
     .then(data => response.json({success : data}))
@@ -52,10 +52,10 @@ app.patch('/update', (request, response) => {
 
 // delete
 app.delete('/delete/:id', (request, response) => {
-    const id = parseInt(request.params.id)
+    const { name } = request.params;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.deleteRowById(id);
+    const result = db.deleteRowById(name);
     
     result
     .then(data => response.json({success : data}))

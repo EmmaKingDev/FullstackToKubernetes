@@ -4,7 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const dbService = require('./dbService');
+const dbService = require('./dbServiceOma');
 
 const port = process.env.PORT || 5000;
 

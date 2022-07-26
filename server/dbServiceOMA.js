@@ -15,7 +15,7 @@ function insertNewName(request, response) {
     const { name } = request.body
     const id = parseInt(request.params.id)
     const date = new Date()
-    pool.query('INSERT INTO names (name, date) VALUES ($1, $2)', [name, date], (error, results) => {
+    pool.query('INSERT INTO nimet (name, date_added) VALUES ($1, $2)', [name, date], (error, results) => {
         if (error) {
             throw error
         }
@@ -28,7 +28,7 @@ function insertNewName(request, response) {
 }
 
 function getAllData(request, response) {
-    pool.query('SELECT * FROM names LIMIT 20', (error, results) => {
+    pool.query('SELECT * FROM nimet LIMIT 20', (error, results) => {
         if (error) {
             throw error
         }
@@ -39,7 +39,7 @@ function getAllData(request, response) {
 const updateNameById = (request, response) => {
     const id = parseInt(request.params.id)
     const { name } = request.body
-    pool.query('UPDATE names SET name = $1 WHERE id = $2', [name, id], (error, results) => {
+    pool.query('UPDATE nimet SET name = $1 WHERE id = $2', [name, id], (error, results) => {
         if (error) {
             throw error
         }
@@ -49,7 +49,7 @@ const updateNameById = (request, response) => {
 
 const deleteRowById = (request, response) => {
     const id = parseInt(request.params.id)
-    pool.query('DELETE FROM names WHERE id = $1', [id], (error, results) => {
+    pool.query('DELETE FROM nimet WHERE id = $1', [id], (error, results) => {
         if (error) {
             throw error
         }
@@ -59,7 +59,7 @@ const deleteRowById = (request, response) => {
 
 const searchByName = (request, response) => {
     const name = request.params.name
-    pool.query('SELECT * FROM names WHERE name = $1', [name], (error, results) => {
+    pool.query('SELECT * FROM nimet WHERE name = $1', [name], (error, results) => {
         if (error) {
             throw error
         }
