@@ -34,24 +34,24 @@ class DbService {
     async insertNewName(name, id) {
         try {
             const dateAdded = new Date();
-            let minutes = dateAdded.getMinutes();
+            /* let minutes = dateAdded.getMinutes();
             if (parseInt(minutes) < 10) {
                 minutes = "0" + minutes;
             }
-            let date = dateAdded.getDate() + "/" + dateAdded.getMonth() + "/" + dateAdded.getFullYear() + " " + dateAdded.getHours() + ":" + minutes;
-/*             const response = await new Promise((resolve, reject) => {
-                pool.query("INSERT INTO names (name, date_added) VALUES ($1,$2) RETURNING id", [name, date])
-            }).resolve */
-            let idsku = ""
+            let date = dateAdded.getDate() + "/" + dateAdded.getMonth() + "/" + dateAdded.getFullYear() + " " + dateAdded.getHours() + ":" + minutes; */
+             const response = await new Promise((resolve, reject) => {
+                pool.query("INSERT INTO names (nimi, date_added) VALUES ($1,$2) RETURNING id", [name, dateAdded])
+            }).resolve 
+/*             let idsku = ""
             const queryText = 'INSERT INTO names (nimi, date_added) VALUES ($1,$2) RETURNING id"'
-            pool.query(queryText, [name,date], function(err, result) {
+            pool.query(queryText, [name,dateAdded], function(err, result) {
                 idsku = result.rows[0].id;
-            });
-            console.log(idsku); 
+            }); */
+
             return {
-                id : newlyCreatedUserId,
+
                 name : name,
-                dateAdded : date
+                dateAdded : dateAdded
             };
         } catch (error) {
             console.log(error);
