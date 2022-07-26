@@ -5,13 +5,12 @@ const { v4: uuidv4 } = require('uuid');
 dotenv.config();
 
 
-const pool = new Pool({ connectionString: process.env.DB_CONNECTIONSTRING })
+const pool = new Pool({ connectionString: process.env.DB_CONNECTIONSTRING }) 
 
 pool.connect((err) => {
     if (err) {
         console.log(err.message);
     }
-    // console.log('db ' + connection.state);
 });
 
 
@@ -27,7 +26,12 @@ class DbService {
 
 
     async getAllData(){
-        return
+        try {
+            const result = await pool.query('SELECT * FROM names');
+            return result.rows;
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     async insertNewName(name) {
@@ -42,11 +46,6 @@ class DbService {
              const response = await new Promise((resolve, reject) => {
                 pool.query("INSERT INTO names (id, nimi, date_added) VALUES ($1,$2,$3) RETURNING id", [id, name, dateAdded])
             }).resolve 
-/*             let idsku = ""
-            const queryText = 'INSERT INTO names (nimi, date_added) VALUES ($1,$2) RETURNING id"'
-            pool.query(queryText, [name,dateAdded], function(err, result) {
-                idsku = result.rows[0].id;
-            }); */
             return {
                 id : id,
                 name : name,
@@ -62,8 +61,7 @@ class DbService {
             const response = await new Promise((resolve, reject) => {
                 pool.query("DELETE FROM names WHERE id =  $1", [id])}).resolve
             
-            return response
-            /* return response === 1 ? true : false; */
+            return response === 1 ? true : false;
         } catch (error) {
             console.log(error);
             return false;

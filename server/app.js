@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const router = express.Router();
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -7,20 +8,25 @@ dotenv.config();
 const dbService = require('./dbService');   
 
 const port = process.env.PORT || 5000;
+const path = __dirname
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
-let id = 0;
 
+router.get('/', (req, res) => {
+    res.sendFile(path + 'index.html');
+})
+
+app.use(express.static(path));
+app.use('/', router);
 
 // create
 app.post('/insert', (request, response) => {
-    id++;
     const { name } = request.body;
     const db = dbService.getDbServiceInstance();
     
-    const result = db.insertNewName(name, id);
+    const result = db.insertNewName(name);
 
     result
     .then(data => response.json({ data: data}))
@@ -41,9 +47,11 @@ app.get('/getAll', (request, response) => {
 // update
 app.patch('/update', (request, response) => {
     const { name } = request.body;
+    const { id } = request.body;
+    console.log(id + " " + name + " olen menossa updateen") ;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.updateNameById(name, nimi);
+    const result = db.updateNameById(name, id);
     
     result
     .then(data => response.json({success : data}))
