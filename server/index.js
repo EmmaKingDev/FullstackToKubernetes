@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:5000/getAll')
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
-    
 });
 
 document.querySelector('table tbody').addEventListener('click', function(event) {
@@ -41,8 +40,6 @@ function handleEditRow(id) {
 
 updateBtn.onclick = function() {
     const updateNameInput = document.querySelector('#update-name-input');
-
-
     console.log(updateNameInput);
 
     fetch('http://localhost:5000/update', {
@@ -79,6 +76,7 @@ addBtn.onclick = function () {
 }
 
 function insertRowIntoTable(data) {
+    location.reload();
     console.log(data);
     const table = document.querySelector('table tbody');
     const isTableData = table.querySelector('.no-data');

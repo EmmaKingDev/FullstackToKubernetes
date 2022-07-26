@@ -13,7 +13,6 @@ pool.connect((err) => {
     }
 });
 
-
 class DbService {
 
     static getDbServiceInstance() {
@@ -81,13 +80,20 @@ class DbService {
     }
 
     async searchByName(name) {
-        try {
+/*         try {
             const response = await new Promise((resolve, reject) => {
                 pool.query("SELECT * FROM names WHERE nimi = $1", [name])}).resolve
 
             return response;
         } catch (error) {
             console.log(error);
+        } */
+        try {
+            const result = await pool.query("SELECT * FROM names WHERE nimi = $1", [name]);
+            console.log(result.rows);
+            return result.rows;
+        } catch (err) {
+            console.log(err.message);
         }
     }
 }

@@ -1,3 +1,9 @@
+body {
+/*     background-color: #000;
+    color: #fff; */
+    font-family: 'Courier New', Courier, monospace;
+}
+
 main {
     width: 50%;
     margin: 50px auto;
@@ -10,7 +16,7 @@ table {
 
 table, th, td {
     border-collapse: collapse;
-    border: 1px solid #000;
+    border: none;
 }
 
 th, td {
