@@ -52,10 +52,11 @@ app.patch('/update', (request, response) => {
 
 // delete
 app.delete('/delete/:id', (request, response) => {
-    const { name } = request.params;
+    const { id } = request.params;
+    console.log("olen id" + id)
     const db = dbService.getDbServiceInstance();
 
-    const result = db.deleteRowById(name);
+    const result = db.deleteRowById(id);
     
     result
     .then(data => response.json({success : data}))

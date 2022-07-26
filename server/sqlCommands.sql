@@ -4,8 +4,7 @@ CREATE TABLE nimet(
     date_added TEXT
 );
 CREATE TABLE names(
-    idMain SERIAL PRIMARY KEY,
-    id INTEGER,
+    id TEXT,
     nimi TEXT NOT NULL,
     date_added TEXT
 );
