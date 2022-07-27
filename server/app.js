@@ -48,7 +48,6 @@ app.get('/getAll', (request, response) => {
 app.patch('/update', (request, response) => {
     const { name } = request.body;
     const { id } = request.body;
-    console.log(id + " " + name + " olen menossa updateen") ;
     const db = dbService.getDbServiceInstance();
 
     const result = db.updateNameById(name, id);
@@ -61,7 +60,6 @@ app.patch('/update', (request, response) => {
 // delete
 app.delete('/delete/:id', (request, response) => {
     const { id } = request.params;
-    console.log("olen id" + id)
     const db = dbService.getDbServiceInstance();
 
     const result = db.deleteRowById(id);

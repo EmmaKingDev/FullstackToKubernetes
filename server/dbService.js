@@ -37,18 +37,18 @@ class DbService {
         try {
             const dateAdded = new Date();
             let id = this.quidity()
-            /* let minutes = dateAdded.getMinutes();
+            let minutes = dateAdded.getMinutes();
             if (parseInt(minutes) < 10) {
                 minutes = "0" + minutes;
             }
-            let date = dateAdded.getDate() + "/" + dateAdded.getMonth() + "/" + dateAdded.getFullYear() + " " + dateAdded.getHours() + ":" + minutes; */
+            let date = dateAdded.getDate() + "/" + dateAdded.getMonth() + "/" + dateAdded.getFullYear() + " " + dateAdded.getHours() + ":" + minutes;
              const response = await new Promise((resolve, reject) => {
-                pool.query("INSERT INTO names (id, nimi, date_added) VALUES ($1,$2,$3) RETURNING id", [id, name, dateAdded])
+                pool.query("INSERT INTO names (id, nimi, date_added) VALUES ($1,$2,$3) RETURNING id", [id, name, date])
             }).resolve 
             return {
                 id : id,
                 name : name,
-                dateAdded : dateAdded
+                date_added : date
             };
         } catch (error) {
             console.log(error);

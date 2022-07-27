@@ -7,34 +7,39 @@
     <title>web app</title>
 </head>
 <body>
+    <div class="bg">
     <main>
-        <label>Name:</label>
-        <input type="text" id="name-input">
-        <button id="add-name-btn">Add Name</button>
-
-        <br><br><br>
-        <div>
-           <input placeholder="search by name" id="search-input">
-           <button id="search-btn">Search</button>
+        <div class="top">
+            <h1>THE INCREDIBLE NAME COLLECTOR</h1>
+            <label class="label">name:</label>
+            <input placeholder="muumi" type="text" id="name-input">
+            <button id="add-name-btn">add</button>
+            
+            <div class="search">
+                <label class="label">search:</label>
+                <input placeholder="karhu" type="text" id="search-input">
+                <button id="search-btn">search</button>
+            </div>
         </div>
-
-        <table id="table">
-            <thead>
-                <th class="inv">ID</th>
-                <th>Name</th>
-                <th>Date Added</th>
-                <th>Delete</th>
-                <th>Edit</th>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <section hidden id="update-row">
+        <div class="chart">
+            <table id="table">
+                <thead>
+                    <th class="inv">ID</th>
+                    <th><h3>NAME</h3></th>
+                    <th><h3>DATE ADDED</h3></th>
+                    <th><h3> </h3></th>
+                    <th><h3> </h3></th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <section hidden id="update-row" class="update">
             <label>Name:</label>
             <input type="text" id="update-name-input">
-            <button id="update-row-btn">Update</button>
+            <button id="update-row-btn">update</button>
         </section>
     </main>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
