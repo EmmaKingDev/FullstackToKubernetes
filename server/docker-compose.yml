@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   app:
-    image: 235920682125.dkr.ecr.us-west-1.amazonaws.com/grouptworepo:latest
+    image: account-id.dkr.ecr.us-west-1.amazonaws.com/repo:latest
     command: npm install
     ports:
       - 5000:5000
