@@ -9,6 +9,7 @@ const dbService = require('./dbService');
 
 const port = process.env.PORT || 5000;
 const path = __dirname
+console.log(path)
 
 app.use(cors());
 app.use(express.json());

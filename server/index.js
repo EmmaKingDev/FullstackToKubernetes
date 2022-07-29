@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://localhost:5000/getAll')
+    fetch('loadbalancerurl:5000/getAll')
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 });
@@ -19,13 +19,13 @@ const searchBtn = document.querySelector('#search-btn');
 searchBtn.onclick = function() {
     const searchValue = document.querySelector('#search-input').value;
 
-    fetch('http://localhost:5000/search/' + searchValue)
+    fetch('loadbalancerurl:5000/search/' + searchValue)
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 }
 
 function deleteRowById(id) {
-    fetch('http://localhost:5000/delete/' + id, {
+    fetch('loadbalancerurl/:5000/delete/' + id, {
         method: 'DELETE'
     })
     .then(response => response.json())
@@ -42,7 +42,7 @@ updateBtn.onclick = function() {
     const updateNameInput = document.querySelector('#update-name-input');
     console.log(updateNameInput);
 
-    fetch('http://localhost:5000/update', {
+    fetch('loadbalancerurl:5000/update', {
         method: 'PATCH',
         headers: {
             'Content-type' : 'application/json'
@@ -64,7 +64,7 @@ addBtn.onclick = function () {
     const name = nameInput.value;
     nameInput.value = "";
 
-    fetch('http://localhost:5000/insert', {
+    fetch('loadbalancerurl:5000/insert', {
         headers: {
             'Content-type': 'application/json'
         },
